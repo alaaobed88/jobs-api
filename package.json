@@ -2,9 +2,10 @@
   "name": "jobs-api",
   "version": "1.0.0",
   "description": "api for jobs application",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "author": "alaa obeid",
   "license": "ISC",
@@ -12,11 +13,12 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
+    "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "http-status-codes": "^2.3.0",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.1.0",
     "mongoose": "^7.6.2"
   },
   "devDependencies": {
