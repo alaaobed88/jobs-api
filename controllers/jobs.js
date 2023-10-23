@@ -35,14 +35,58 @@ const postJob = async (req, res) => {
 const deleteJob = async (req, res) => {
   const {
     user: { userId },
-    params: { _id: jobId },
+    params: { id: jobId },
   } = req;
+  console.log(jobId);
 
   if (!jobId) {
     throw new BadRequestError("please provide id for the job");
   }
+  const deletedJob = await Job.findByIdAndDelete({
+    _id: jobId,
+    createdBy: userId,
+  });
+  if (!deletedJob) {
+    throw new BadRequestError("no job found with the provided id");
+  }
+  res.status(StatusCodes.OK).json({ msg: "successfuly deleted" });
 };
 
-const editJob = async (req, res) => {};
+const updateJob = async (req, res) => {
+  const {
+    user: { userId },
+    params: { id: jobId },
+    body: { organization, description, role },
+  } = req;
 
-module.exports = { getJobsCreatedByUser, getJob, postJob };
+  if (!organization || !description || !role) {
+    throw new BadRequestError("please provide all informations");
+  }
+
+  if (!jobId) {
+    throw new BadRequestError("please provide id for the job");
+  }
+
+  const updatedJob = await Job.findByIdAndUpdate(
+    {
+      _id: jobId,
+      createdBy: userId,
+    },
+    req.body,
+    { new: true, runValidators: true }
+  );
+  if (!updatedJob) {
+    throw new BadRequestError("no job found with the provided id");
+  }
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "successfuly updated", job: updatedJob });
+};
+
+module.exports = {
+  getJobsCreatedByUser,
+  getJob,
+  postJob,
+  deleteJob,
+  updateJob,
+};

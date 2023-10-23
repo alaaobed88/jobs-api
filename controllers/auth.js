@@ -17,7 +17,7 @@ const register = async (req, res) => {
   });
   const token = jwt.sign(
     { userId: user._id, name: user.name },
-    "asdasdasdasd",
+    process.env.SECRET_KEY,
     { expiresIn: "30d" }
   );
   res.status(201).json({ user: { name: user.name }, token });
@@ -39,9 +39,9 @@ const login = async (req, res) => {
     throw new UnauthorizedError("Unauthorized");
   }
 
-  const token = await jwt.sign(
+  const token = jwt.sign(
     { userId: user._id, name: user.name },
-    "asdasdasdasd",
+    process.env.SECRET_KEY,
     { expiresIn: "30d" }
   );
   res.status(201).json({ user: { name: user.name }, token });
