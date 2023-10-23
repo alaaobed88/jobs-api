@@ -9,12 +9,13 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFoundMiddleware = require("./middleware/not-found");
 const authRoute = require("./routes/auth");
 const jobsRoute = require("./routes/jobs");
+const authMiddleware = require("./middleware/authentication");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/jobs", jobsRoute);
+app.use("/api/v1/jobs", authMiddleware, jobsRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
